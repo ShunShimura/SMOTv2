@@ -1,0 +1,7 @@
+path: /home/shimura.shun/work/Data/cell_dataset
+train: [train]
+val: [val]
+test: test
+# Classes
+nc: 1  # number of classes
+names: ['cell']  # class names
