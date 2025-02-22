@@ -1,0 +1,22 @@
+name: SMOT
+channels:
+  - conda-forge
+  - pytorch
+  - defaults
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - python=3.10
+  - huggingface_hub
+  - matplotlib
+  - opencv
+  - pandas
+  - pytorch
+  - pytorch-cuda=12.1
+  - torchaudio
+  - torchvision
+  - tqdm
+  - psutil
+  - filterpy
+  - xmltodict
+prefix: /home/shimura.shun/anaconda3/envs/SMOT
