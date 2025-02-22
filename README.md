@@ -1,7 +1,7 @@
 # Sliced Multi Object Tracker 
 
 ## Updates
-- 25/02/02 Initial release.
+- 25/02/22 Initial release.
 
 ## Performance
 <p align="center">
