@@ -1,19 +1,24 @@
 # Sliced Multi Object Tracker 
 
 ## Updates
-- 25/02/02 Initial release.
+- 25/02/24 Change procedure of installation to adapt the non-support of pytorch for conda installation. (see https://pytorch.org/get-started/locally/)
+- 25/02/22 Initial release.
 
 ## Performance
 <p align="center">
-  <img src="figures/meanIoUs.svg" width=100%>
+  <img src="figures/meanIoUs.svg" width=80%>
+  <br>
   Solid lines indicate performance of proposed method while dased lines indicate ones of arranged existing methods.
 </p>
 
 ## Installation
 ```
-conda env create -f environment.yaml
+conda create -n SMOT python=3.10
 conda activate SMOT
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+pip install ultralytics huggingface_hub 
 ```
+Please pay attention to installation order because installation of ultralytices updates numpy's version that has installed at one of pytorch. 
 
 ## Validation
 Run validation on default settings.
