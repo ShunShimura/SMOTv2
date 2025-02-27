@@ -15,7 +15,7 @@ def save_detection_map(bboxes:List[Set[Bbox]], ns:int, nf:int, dir:Path) -> None
         
     Parameters
     ----------
-    bboxes: Time-series of captured bounding boxes at a time. List indicates each time.
+    bboxes: Time-series (frame-level) of captured bounding boxes at a time. List indicates each time.
     ns: number of slices
     nf: number of frames
     dir: Directory path where detection maps are saved

@@ -126,6 +126,33 @@ class DataLoader:
                         identified_bboxes[id] = {Bbox(box, t=time, s=s, id=id)}
         return identified_bboxes
     
+    def load_reidentification_labels_v2(self, time:int) -> List[Set[Bbox]]:
+        '''
+        Load ground-truth bounding-boxes with ID on time-t
+        
+        Parameters
+        ----------
+        time: discrete time that corresponding n_s images
+        
+        Returns
+        -------
+        bboxes: List[Set[Bbox]]
+            Each set indicates bboxes at one frame. Bounding-box's format is cxywhn.
+        '''
+        reidentification_label_paths = sorted([p for p in (self.root / 'reid' / 'labels').glob("*.txt")])[self.ns * time: self.ns * (time + 1)]
+        identified_bboxes:List[Set[Bbox]] = []
+        for s, p in enumerate(reidentification_label_paths):
+            with open(p, "r") as f:
+                bboxes: Set[Bbox] = set([])
+                for line in f:
+                    line.strip()
+                    contents = line.split(",")
+                    id = int(contents[1])
+                    box = np.array([float(val) for val in contents[2:6]])
+                    bboxes.add(Bbox(bbox=box, t=time, s=s, id=id))
+            identified_bboxes.append(bboxes)
+        return identified_bboxes
+    
     def load_estimation_labels(self) -> Dict[int, Dict[int, np.ndarray]]:
         '''
         Load ground-truth object positions and size

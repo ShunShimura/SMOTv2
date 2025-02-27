@@ -7,5 +7,6 @@ __all__ = [
     'intersection_of_union',
     'count_of_duplicates',
     'sumIoU',
-    'sphere_iou'
+    'sphere_iou',
+    'many_to_many_matching'
 ]

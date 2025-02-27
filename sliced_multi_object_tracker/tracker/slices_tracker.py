@@ -45,9 +45,10 @@ class BaseSlicedMultiObjectTracker(BaseMultiObjectTracker):
         return NotImplementedError
             
     def _save_reid(self, sliced_obs:Dict[int, List[Bbox]]) -> None:
+        ''' Save re-identified bboxes as frame-level time-series of Set[Bbox]'''
         # for ReID
-        self.all_bboxes.append(
-            {bbox for bbox_list in sliced_obs.values() for bbox in bbox_list}
+        self.all_bboxes.extend(
+            [bboxes for _, bboxes in sorted(sliced_obs.items())]
         )
     
 class SlicedMultiObjectTracker(BaseSlicedMultiObjectTracker):

@@ -2,7 +2,7 @@ import os,sys,shutil
 
 import logging, argparse
 from tqdm import tqdm
-from typing import List, Dict
+from typing import List, Dict, Set
 from pathlib import Path
 import numpy as np
 
@@ -17,7 +17,7 @@ from sliced_multi_object_tracker.tracker import *
 # parser
 def parse_hyp(known=False):
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", type=Path, default=Path('.')/'data'/'batch', help="Path to input folder of images.")
+    parser.add_argument("--input", type=Path, default=Path('.')/'data', help="Path to input folder of images.")
     parser.add_argument("--output", type=Path, default=Path('.')/'output'/'default', help="Path to output folder.")
     parser.add_argument("--ns", type=int, help="Number of slice (required).")
     parser.add_argument("--nf", type=int, help="Number of frame for time-direction (required).")
@@ -155,9 +155,10 @@ if __name__ == '__main__':
             
         logger.info(f"Tracking {len(tracker.single_trackers)} objects.")
             
-    all_bboxes = tracker.all_bboxes
+    all_bboxes:List[Set[Bbox]] = tracker.all_bboxes
     all_predictions = tracker.all_predictions
     save_prediction(all_predictions, hyp.nf, dir=estimation_folder)
     save_meanIoU(all_predictions, hyp.nf, data_loader, dir=estimation_folder)
-    # save_detection_map(all_bboxes, hyp.ns, hyp.nf, dir=reid_folder)
+    save_motmetric(all_bboxes, hyp.nf, data_loader, dir=reid_folder)
+    save_detection_map(all_bboxes, hyp.ns, hyp.nf, dir=reid_folder)
     
