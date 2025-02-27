@@ -29,7 +29,7 @@ where `ns` means number of slice and `nf` means number of frames.
 
 If you use custom dataset, please run
 ```
-python valid.py --ns {ns} --nf {nf} --input {your/dataset/root/path} --dv
+python valid.py --ns {ns} --nf {nf} --input {your/dataset/root/path} --dv [dx,dy,dz]
 ```
 where `dv` means scale ratio of state-space from observe-space.
 
