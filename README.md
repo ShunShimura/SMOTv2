@@ -1,6 +1,7 @@
 # Sliced Multi Object Tracker 
 
 ## Updates
+- 25/03/01 Add `predict.py` and outputs including text-outputs, visualizations and evaluations.
 - 25/02/24 Change procedure of installation to adapt the non-support of pytorch for conda installation. (see https://pytorch.org/get-started/locally/)
 - 25/02/22 Initial release.
 
