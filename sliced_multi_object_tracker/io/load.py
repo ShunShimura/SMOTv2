@@ -171,11 +171,9 @@ class DataLoader:
                 for line in f:
                     line.strip()
                     items = [float(v) for v in line.split(",")]
-                    x, y, z, r = items[1::2]
                     id = int(items[0])
                     if not id in ground_truth.keys():
-                        ground_truth[id] = {t:np.array([x, y, z, r])}
+                        ground_truth[id] = {t: items[1:]}
                     else:
-                        ground_truth[id][t] = np.array([x, y, z, r])
-        ground_truth = list(ground_truth.values())  
+                        ground_truth[id][t] = items[1:]
         return ground_truth

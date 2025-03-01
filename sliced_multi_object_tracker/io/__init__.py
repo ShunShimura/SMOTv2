@@ -8,5 +8,6 @@ __all__ = [
     'save_detection_map',
     'save_prediction',
     'save_meanIoU',
-    'save_motmetric'
+    'save_motmetric',
+    'save_posterior'
 ]

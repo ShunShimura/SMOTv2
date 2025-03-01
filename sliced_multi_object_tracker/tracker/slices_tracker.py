@@ -93,6 +93,9 @@ class SlicedMultiObjectTracker(BaseSlicedMultiObjectTracker):
         self.bbox_model = bbox_model
         self.max_staleness = {'time':temporal_max_staleness, 'space':spacio_max_staleness}
         
+        # Save estimation posteriors (mean and diag(cov))
+        self.all_filterings:List[Dict[int, List[np.ndarray]]] = []
+        
     def step(self, sliced_obs:Dict[int, List[Bbox]]):
         '''
         Main process of tracking
@@ -202,8 +205,12 @@ class SlicedMultiObjectTracker(BaseSlicedMultiObjectTracker):
                 at.stale()
                 
         # predict and save
+        active_trackers:List[SlicedSingleObjectTracker] = self.active_trackers()
+        self.all_filterings.append(
+            {at.id : [at.filter.x, np.diag(at.filter.P)] for at in active_trackers}
+        )
         self.all_predictions.append(
-            {at.id : at.predict() for at in self.active_trackers()}
+            {at.id : at.predict() for at in active_trackers}
         )
         self._save_reid(sliced_obs=sliced_obs)
         
@@ -217,7 +224,7 @@ class SlicedMultiObjectTracker(BaseSlicedMultiObjectTracker):
         gt_bboxes: dictionary of bounding-boxes with deriving ID sorted by slice-index 
         '''
         # make id_to_idx map of active_trackers 
-        active_trackers = self.active_trackers()
+        active_trackers = active_trackers
         map_to_idx = {st.id: i for i, st in enumerate(active_trackers)}
         
         # use ground-truth to update
@@ -262,7 +269,7 @@ class SlicedMultiObjectTracker(BaseSlicedMultiObjectTracker):
         '''
         return [sot for sot in self.single_trackers if not sot.is_stale(self.max_staleness['time'])]
 
-        
+
 class SlicedSingleObjectTracker(BaseSingleObjectTracker):
     '''
     Tracker of single object that corresponds to multiple bounding-box input and can estimate and predict (x, y, z, r) 
@@ -321,7 +328,7 @@ class SlicedSingleObjectTracker(BaseSingleObjectTracker):
             # please note that this concludes None
             self.predicted_bboxes = self.filter.observe_predict()
         
-        # preidct on estimator (return only mean)
+        # preidct on estimator (return only mean and all)
         return self.filter.state_predict()[0].copy()[self.model._primary_idx]
     
     def update(self, bboxes:Set[Bbox]):

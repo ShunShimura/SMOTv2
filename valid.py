@@ -156,9 +156,10 @@ if __name__ == '__main__':
         logger.info(f"Tracking {len(tracker.single_trackers)} objects.")
             
     all_bboxes:List[Set[Bbox]] = tracker.all_bboxes
-    all_predictions = tracker.all_predictions
-    save_prediction(all_predictions, hyp.nf, dir=estimation_folder)
-    save_meanIoU(all_predictions, hyp.nf, data_loader, dir=estimation_folder)
-    save_motmetric(all_bboxes, hyp.nf, data_loader, dir=reid_folder)
-    save_detection_map(all_bboxes, hyp.ns, hyp.nf, dir=reid_folder)
-    
+    all_predictions:List[Dict[int, np.ndarray]] = tracker.all_predictions
+    all_filterings:List[Dict[int, List[np.ndarray]]] = tracker.all_filterings
+    # save_prediction(all_predictions, hyp.nf, dir=estimation_folder)
+    # save_meanIoU(all_predictions, hyp.nf, data_loader, dir=estimation_folder)
+    # save_motmetric(all_bboxes, hyp.nf, data_loader, dir=reid_folder)
+    # save_detection_map(all_bboxes, hyp.ns, hyp.nf, dir=reid_folder)
+    save_posterior(all_predictions, all_filterings, hyp.nf, data_loader, dir=estimation_folder)
